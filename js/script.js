@@ -6,7 +6,7 @@ let langData = {};
 
 // 初始化函数
 function init() {
-  // 检测语言优先级：1. 本地存储的用户偏好 2. 浏览器语言 3. 基于IP的地理位置检测
+  // 检测语言优先级：1. 本地存储的用户偏好 2. 默认使用日文
   const savedLang = localStorage.getItem('preferredLanguage');
   
   if (savedLang) {
@@ -14,29 +14,9 @@ function init() {
     currentLang = savedLang;
     loadLanguageData(currentLang);
   } else {
-    // 优先使用浏览器语言
-    const browserLang = detectUserLang();
-    if (browserLang && (browserLang === 'zh' || browserLang === 'ja' || browserLang === 'en')) {
-      // 浏览器语言有效且为支持的语言
-      currentLang = browserLang;
-      loadLanguageData(currentLang);
-    } else {
-      // 浏览器语言无效或不支持，则尝试基于IP地址检测地理位置
-      detectLanguageByIP().then(ipLang => {
-        if (ipLang) {
-          currentLang = ipLang;
-          loadLanguageData(currentLang, true); // 传入true表示使用IP检测
-        } else {
-          // 所有检测都失败，使用默认语言
-          currentLang = 'zh';
-          loadLanguageData(currentLang);
-        }
-      }).catch(() => {
-        // IP检测出错，使用默认语言
-        currentLang = 'zh';
-        loadLanguageData(currentLang);
-      });
-    }
+    // 无论访问者使用何种语言，默认均显示日文
+    currentLang = 'ja';
+    loadLanguageData(currentLang);
   }
   
   // 设置语言切换事件
