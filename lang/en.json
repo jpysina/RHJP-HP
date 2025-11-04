@@ -4,11 +4,12 @@
     "fullName": "RIVER HOPE JAPAN LEGAL CONSULTING"
   },
   "nav": {
-    "about": "About",
-    "services": "Services",
-    "fees": "Fees",
-    "news": "News",
-    "contact": "Contact"
+    "home": "Home",
+    "about": "About Us",
+    "services": "Our Services",
+    "fees": "Fee Structure",
+    "news": "Latest News",
+    "contact": "Contact Us"
   },
   "hero": {
     "badge": "Legal Consulting · Company Setup · Visa · Intellectual Property",

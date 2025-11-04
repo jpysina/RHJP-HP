@@ -67,8 +67,13 @@ function updatePageContent() {
   document.querySelector('.brand-name').textContent = langData.brand.name;
   document.querySelector('.brand-full-name').textContent = langData.brand.fullName;
   
-  // 更新导航菜单 - 导航链接文本处理已移至侧边栏处理函数
-  // 保留基本导航更新逻辑以确保兼容性
+  // 更新导航菜单
+  document.querySelectorAll('.sidebar-nav a').forEach(link => {
+    const langKey = link.dataset.lang;
+    if (langKey && langData.nav[langKey]) {
+      link.textContent = langData.nav[langKey];
+    }
+  });
   
   // 更新hero区域
   document.querySelector('.hero .badge').textContent = langData.hero.badge;

@@ -4,10 +4,11 @@
     "fullName": "RIVER HOPE JAPAN LEGAL CONSULTING"
   },
   "nav": {
-    "about": "当社について",
-    "services": "サービス",
-    "fees": "料金",
-    "news": "ニュース",
+    "home": "ホーム",
+    "about": "事務所概要",
+    "services": "サービス内容",
+    "fees": "料金体系",
+    "news": "最新情報",
     "contact": "お問い合わせ"
   },
   "hero": {
