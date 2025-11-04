@@ -4,17 +4,27 @@ let currentLang = 'zh';
 // 语言包对象
 let langData = {};
 
+// 是否记住语言设置
+let isRememberLanguage = false;
+
 // 初始化函数
 function init() {
-  // 检测语言优先级：1. 本地存储的用户偏好 2. 默认使用日文
+  // 获取本地存储中的设置
   const savedLang = localStorage.getItem('preferredLanguage');
+  const lastSelectedLang = localStorage.getItem('lastSelectedLanguage');
+  isRememberLanguage = localStorage.getItem('rememberLanguage') === 'true';
   
-  if (savedLang) {
-    // 优先使用用户保存的语言偏好
+  // 语言选择逻辑优化
+  if (isRememberLanguage && savedLang) {
+    // 开启记忆功能时，使用保存的偏好语言
     currentLang = savedLang;
     loadLanguageData(currentLang);
+  } else if (!isRememberLanguage) {
+    // 关闭记忆功能时，直接使用日语
+    currentLang = 'ja';
+    loadLanguageData(currentLang);
   } else {
-    // 无论访问者使用何种语言，默认均显示日文
+    // 默认情况下使用日文
     currentLang = 'ja';
     loadLanguageData(currentLang);
   }
@@ -24,6 +34,9 @@ function init() {
   
   // 更新活动导航项状态
   updateActiveNavItem();
+  
+  // 设置语言记忆开关
+  setupLanguageRememberSwitch();
 }
 
 // 综合检测用户语言（浏览器+系统）
@@ -129,6 +142,14 @@ function loadLanguageData(lang, isIPDetected = false) {
         // 移除可能存在的提示信息
         removeIPDetectionNotice();
       }
+      
+      // 只有在开启记忆功能时，才根据语言决定是否隐藏语言切换器
+  // 在关闭记忆功能时，始终显示语言切换器，保持用户当前的语言设置
+  if (isRememberLanguage && lang === 'ja') {
+    hideLanguageSwitcher();
+  } else {
+    showLanguageSwitcher();
+  }
     })
     .catch(error => {
       console.error('语言加载错误:', error);
@@ -137,6 +158,37 @@ function loadLanguageData(lang, isIPDetected = false) {
         loadLanguageData('zh', isIPDetected);
       }
     });
+}
+
+// 显示语言切换器
+function showLanguageSwitcher() {
+  const languageSwitchers = document.querySelectorAll('.language-switcher');
+  languageSwitchers.forEach(switcher => {
+    switcher.style.display = 'block';
+  });
+  
+  // 显示语言记忆选项
+  const rememberOption = document.querySelector('.language-remember-option');
+  if (rememberOption) {
+    rememberOption.style.display = 'flex';
+  }
+}
+
+// 隐藏语言切换器（仅隐藏侧边栏中的，保留标题栏的）
+function hideLanguageSwitcher() {
+  const languageSwitchers = document.querySelectorAll('.language-switcher');
+  languageSwitchers.forEach(switcher => {
+    // 检查是否是侧边栏中的语言切换器
+    if (switcher.closest('.sidebar')) {
+      switcher.style.display = 'none';
+    }
+  });
+  
+  // 隐藏语言记忆选项（侧边栏中的）
+  const rememberOption = document.querySelector('.language-remember-option');
+  if (rememberOption) {
+    rememberOption.style.display = 'none';
+  }
 }
 
 // 显示IP地址检测提示信息
@@ -347,6 +399,37 @@ function updatePageContent() {
     };
   }
   
+  // 更新语言记忆选项文本
+  const rememberTextEl = document.getElementById('rememberLanguageText');
+  const settingsTextEl = document.getElementById('settingsText');
+  const dividerEl = document.querySelector('.language-remember-option .divider');
+  const languageOptionEl = document.querySelector('.language-remember-option');
+  
+  if (rememberTextEl) {
+    if (currentLang === 'zh') {
+      rememberTextEl.textContent = '保持为中文显示';
+      // 显示设置说明文字和分割线
+      if (settingsTextEl) settingsTextEl.textContent = '设置';
+      if (settingsTextEl) settingsTextEl.style.display = 'block';
+      if (dividerEl) dividerEl.style.display = 'block';
+      if (languageOptionEl) languageOptionEl.style.display = 'block';
+    } else if (currentLang === 'en') {
+      rememberTextEl.textContent = 'Keep as English Display';
+      // 显示设置说明文字和分割线
+      if (settingsTextEl) settingsTextEl.textContent = 'Settings';
+      if (settingsTextEl) settingsTextEl.style.display = 'block';
+      if (dividerEl) dividerEl.style.display = 'block';
+      if (languageOptionEl) languageOptionEl.style.display = 'block';
+    } else {
+      rememberTextEl.textContent = '言語設定を記憶する';
+      // 在日语页面隐藏设置说明文字和分割线
+      if (settingsTextEl) settingsTextEl.style.display = 'none';
+      if (dividerEl) dividerEl.style.display = 'none';
+      // 确保在日语页面隐藏语言记忆选项
+      if (languageOptionEl) languageOptionEl.style.display = 'none';
+    }
+  }
+
   // 更新页脚
   document.querySelector('footer .copyright').textContent = langData.footer.copyright;
   document.querySelector('footer .disclaimer').textContent = langData.footer.disclaimer;
@@ -355,6 +438,7 @@ function updatePageContent() {
   document.title = langData.brand.name + " — " + 
     (langData.nav.services === "Services" ? "Legal Consulting" : 
      langData.nav.services === "サービス" ? "法律相談" : "法律咨询");
+
   
   // 更新元描述
   const metaDesc = document.querySelector('meta[name="description"]');
@@ -395,6 +479,33 @@ function updateDocumentLang(lang) {
   document.documentElement.lang = lang;
 }
 
+// 设置语言记忆开关
+function setupLanguageRememberSwitch() {
+  const switchElement = document.getElementById('rememberLanguage');
+  if (switchElement) {
+    // 设置开关的初始状态
+    switchElement.checked = isRememberLanguage;
+    
+    // 添加开关事件监听
+    switchElement.addEventListener('change', function() {
+      isRememberLanguage = this.checked;
+      localStorage.setItem('rememberLanguage', isRememberLanguage.toString());
+      
+      if (!isRememberLanguage) {
+        // 当关闭记忆功能时，移除所有语言相关的本地存储
+        localStorage.removeItem('preferredLanguage');
+        localStorage.removeItem('lastSelectedLanguage');
+        
+        // 记录关闭时的操作
+        console.log('语言记忆功能已关闭，刷新页面将恢复到日语');
+      } else {
+        // 当开启记忆功能时，保存当前语言为首选语言
+        localStorage.setItem('preferredLanguage', currentLang);
+      }
+    });
+  }
+}
+
 // 设置语言切换器
 function setupLanguageSwitchers() {
   const buttons = document.querySelectorAll('.language-switcher button');
@@ -403,7 +514,16 @@ function setupLanguageSwitchers() {
       const lang = this.dataset.lang;
       if (lang !== currentLang) {
         currentLang = lang;
-        localStorage.setItem('preferredLanguage', lang);
+        
+        // 无论开关状态如何，都记录当前选择的语言
+        // 这样即使开关关闭，也能记住用户的语言选择
+        localStorage.setItem('lastSelectedLanguage', lang);
+        
+        // 如果开启了记忆功能，保存为首选语言
+        if (isRememberLanguage) {
+          localStorage.setItem('preferredLanguage', lang);
+        }
+        
         loadLanguageData(lang);
         
         // 更新活动导航项状态

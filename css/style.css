@@ -206,9 +206,11 @@ header.fixed-header {
 }
 
 .sidebar-inner {
-  padding: 20px 16px;
+  padding: 32px 16px 20px 16px;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
 }
 
 /* Sidebar Navigation */
@@ -216,6 +218,7 @@ header.fixed-header {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  margin-top: -7px;
 }
 
 .sidebar-nav a {
@@ -307,6 +310,61 @@ header.fixed-header {
 
 
 /* Language Switcher */
+
+
+/* Toggle Switch Styles */
+.settings-label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #0b2355;
+  margin-right: 10px;
+}
+.language-remember-option .switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.language-remember-option .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.language-remember-option .switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.language-remember-option .switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.language-remember-option .switch input:checked + .slider {
+  background-color: #1e88e5;
+}
+
+.language-remember-option .switch input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* Language Switcher */
 .language-switcher {
   display: flex;
   align-items: center;
@@ -316,6 +374,52 @@ header.fixed-header {
   padding: 4px;
   border-radius: 8px;
   border: 1px solid #e6eefc;
+}
+
+/* 水平分割线样式 */
+.divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.language-remember-option {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+  width: 100%;
+  padding-left: 14px;
+}
+
+.settings-label {
+  display: block;
+  color: #0b2355;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.option-row {
+  display: flex;
+  align-items: center;
+}
+
+#rememberLanguageText {
+  color: #333;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.sidebar-nav a {
+  display: block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+  transition: all 0.3s ease;
+  margin-top: 0;
 }
 
 .language-switcher button {
@@ -582,6 +686,19 @@ footer {
   .language-switcher {
     margin-left: 0;
     align-self: flex-end;
+  }
+  
+  /* Responsive switch styles */
+  .language-remember-option .switch {
+    width: 40px;
+    height: 20px;
+  }
+  
+  .language-remember-option .switch .slider:before {
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
   }
   
   .hero {
