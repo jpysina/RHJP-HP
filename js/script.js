@@ -6,13 +6,38 @@ let langData = {};
 
 // 初始化函数
 function init() {
-  // 检测浏览器语言
+  // 检测语言优先级：1. 本地存储的用户偏好 2. 浏览器语言 3. 基于IP的地理位置检测
   const savedLang = localStorage.getItem('preferredLanguage');
-  const browserLang = detectBrowserLang();
-  currentLang = savedLang || browserLang;
   
-  // 加载语言数据
-  loadLanguageData(currentLang);
+  if (savedLang) {
+    // 优先使用用户保存的语言偏好
+    currentLang = savedLang;
+    loadLanguageData(currentLang);
+  } else {
+    // 优先使用浏览器语言
+    const browserLang = detectUserLang();
+    if (browserLang && (browserLang === 'zh' || browserLang === 'ja' || browserLang === 'en')) {
+      // 浏览器语言有效且为支持的语言
+      currentLang = browserLang;
+      loadLanguageData(currentLang);
+    } else {
+      // 浏览器语言无效或不支持，则尝试基于IP地址检测地理位置
+      detectLanguageByIP().then(ipLang => {
+        if (ipLang) {
+          currentLang = ipLang;
+          loadLanguageData(currentLang, true); // 传入true表示使用IP检测
+        } else {
+          // 所有检测都失败，使用默认语言
+          currentLang = 'zh';
+          loadLanguageData(currentLang);
+        }
+      }).catch(() => {
+        // IP检测出错，使用默认语言
+        currentLang = 'zh';
+        loadLanguageData(currentLang);
+      });
+    }
+  }
   
   // 设置语言切换事件
   setupLanguageSwitchers();
@@ -21,16 +46,81 @@ function init() {
   updateActiveNavItem();
 }
 
-// 检测浏览器语言
-function detectBrowserLang() {
+// 综合检测用户语言（浏览器+系统）
+function detectUserLang() {
+  // 检测浏览器语言
   const navLang = navigator.language || navigator.userLanguage;
-  if (navLang.startsWith('ja')) return 'ja';
-  if (navLang.startsWith('en')) return 'en';
+  
+  // 尝试获取操作系统语言设置（通过浏览器API）
+  let osLang = null;
+  if (navigator.languages && navigator.languages.length > 0) {
+    // 使用首选语言列表中的第一个
+    osLang = navigator.languages[0];
+  }
+  
+  // 优先考虑浏览器语言
+  const primaryLang = navLang;
+  const secondaryLang = osLang;
+  
+  // 检查是否为支持的语言
+  if (primaryLang && primaryLang.startsWith('ja')) return 'ja';
+  if (primaryLang && primaryLang.startsWith('en')) return 'en';
+  if (secondaryLang && secondaryLang.startsWith('ja')) return 'ja';
+  if (secondaryLang && secondaryLang.startsWith('en')) return 'en';
+  
+  // 检查中文变体
+  if (primaryLang && (primaryLang.startsWith('zh') || primaryLang.includes('CN') || primaryLang.includes('TW') || primaryLang.includes('HK') || primaryLang.includes('SG'))) {
+    return 'zh';
+  }
+  if (secondaryLang && (secondaryLang.startsWith('zh') || secondaryLang.includes('CN') || secondaryLang.includes('TW') || secondaryLang.includes('HK') || secondaryLang.includes('SG'))) {
+    return 'zh';
+  }
+  
   return 'zh'; // 默认中文
 }
 
+// 基于IP地址检测地理位置和语言
+function detectLanguageByIP() {
+  return new Promise((resolve, reject) => {
+    // 设置超时处理
+    const timeoutId = setTimeout(() => {
+      reject(new Error('IP检测超时'));
+    }, 3000);
+    
+    // 使用公共IP地理位置API
+    // 注意：这是一个免费API，实际生产环境应考虑使用更可靠的付费服务
+    fetch('https://ipinfo.io/json')
+      .then(response => {
+        clearTimeout(timeoutId);
+        if (!response.ok) {
+          throw new Error('IP信息获取失败');
+        }
+        return response.json();
+      })
+      .then(data => {
+        const country = data.country;
+        console.log('检测到用户所在国家/地区:', country);
+        
+        // 根据国家/地区确定语言
+        // 语言切换规则：当检测到用户所在地区为中国、新加坡或日本时，使用对应地区的语言
+        if (country === 'JP') {
+          resolve('ja'); // 日本使用日语
+        } else if (country === 'CN' || country === 'SG') {
+          resolve('zh'); // 中国和新加坡使用中文
+        } else {
+          resolve('en'); // 其他地区使用英文
+        }
+      })
+      .catch(error => {
+        clearTimeout(timeoutId);
+        console.warn('IP检测失败，回退到浏览器语言:', error.message);
+        reject(error);
+      });
+  });
+}
+
 // 加载语言数据
-function loadLanguageData(lang) {
+function loadLanguageData(lang, isIPDetected = false) {
   // 根据lang参数确定正确的文件路径
   let filePath;
   if (lang === 'zh') {
@@ -51,15 +141,81 @@ function loadLanguageData(lang) {
       updatePageContent();
       updateLanguageSwitcher(lang);
       updateDocumentLang(lang);
+      
+      // 如果是通过IP地址检测的语言，显示提示信息
+      if (isIPDetected) {
+        showIPDetectionNotice(lang);
+      } else {
+        // 移除可能存在的提示信息
+        removeIPDetectionNotice();
+      }
     })
     .catch(error => {
       console.error('语言加载错误:', error);
       // 如果加载失败，使用默认语言
       if (lang !== 'zh') {
-        loadLanguageData('zh');
+        loadLanguageData('zh', isIPDetected);
       }
     });
 }
+
+// 显示IP地址检测提示信息
+function showIPDetectionNotice(lang) {
+  // 先移除可能存在的提示
+  removeIPDetectionNotice();
+  
+  // 创建提示容器
+  const noticeContainer = document.createElement('div');
+  noticeContainer.id = 'ip-language-notice';
+  noticeContainer.className = 'ip-language-notice';
+  
+  // 根据当前语言设置提示内容
+  let noticeText;
+  let closeText;
+  
+  switch(lang) {
+    case 'zh':
+      noticeText = '根据您的IP地址检测到您可能位于中国或新加坡地区，已自动切换为中文显示。';
+      closeText = '关闭';
+      break;
+    case 'ja':
+      noticeText = 'お客様のIPアドレスにより日本在住と推定されます。日本語表示に自動的に切り替えられました。';
+      closeText = '閉じる';
+      break;
+    default: // en
+      noticeText = 'Based on your IP address, we have automatically switched to English display.';
+      closeText = 'Close';
+  }
+  
+  // 设置提示内容
+  noticeContainer.innerHTML = `
+    <div class="ip-notice-content">
+      <span>${noticeText}</span>
+      <button class="close-btn" onclick="removeIPDetectionNotice()">${closeText}</button>
+    </div>
+  `;
+  
+  // 添加到页面，插入到header之后
+  const header = document.querySelector('header');
+  if (header && header.nextSibling) {
+    header.parentNode.insertBefore(noticeContainer, header.nextSibling);
+  } else if (header) {
+    header.parentNode.appendChild(noticeContainer);
+  } else {
+    document.body.insertBefore(noticeContainer, document.body.firstChild);
+  }
+}
+
+// 移除IP地址检测提示信息
+function removeIPDetectionNotice() {
+  const notice = document.getElementById('ip-language-notice');
+  if (notice) {
+    notice.remove();
+  }
+}
+
+// 将removeIPDetectionNotice添加到window对象，使其可以在HTML中直接调用
+window.removeIPDetectionNotice = removeIPDetectionNotice;
 
 // 更新页面内容
 function updatePageContent() {

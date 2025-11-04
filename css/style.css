@@ -63,6 +63,49 @@ header.fixed-header {
   overflow: hidden;
 }
 
+/* IP语言检测提示框样式 */
+.ip-language-notice {
+  position: relative;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  margin: 1rem 0;
+  padding: 1rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.ip-notice-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ip-notice-content span {
+  flex: 1;
+  font-size: 0.9rem;
+  color: #495057;
+  line-height: 1.4;
+}
+
+.ip-notice-content .close-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.ip-notice-content .close-btn:hover {
+  background-color: #0056b3;
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   /* Hide sidebar on mobile */
