@@ -1,0 +1,175 @@
+{
+  "brand": {
+    "name": "RH Japan Fujimoto Legal Consulting",
+    "fullName": "RIVER HOPE JAPAN LEGAL CONSULTING"
+  },
+  "nav": {
+    "about": "About",
+    "services": "Services",
+    "fees": "Fees",
+    "news": "News",
+    "contact": "Contact"
+  },
+  "hero": {
+    "badge": "Legal Consulting · Company Setup · Visa · Intellectual Property",
+    "title": "Bridging Legal Borders, Empowering Sino-Japanese Business Compliance",
+    "description": "We combine international perspectives with local expertise to provide professional, reliable legal and business support for companies and individuals in Japan. We help clients who aim to conduct stable operations and legally compliant business expansion from China to Japan with a full range of legal consulting services and planning.",
+    "cta": "Book Consultation"
+  },
+  "quickServices": {
+    "title": "Quick Service Overview",
+    "subtitle": "Addressing Your Common Needs",
+    "list": [
+      "Company Setup & Changes",
+      "Investment/Business Management Visa Application",
+      "Labor Law & Employment Compliance",
+      "Trademark Registration & IP Protection"
+    ]
+  },
+  "about": {
+    "title": "About Us",
+    "description": "RIVER HOPE Japan Fujimoto Legal Consulting Office is a legal and business service institution established in Japan by River Hope Law Firm Indonesia Group. We specialize in providing comprehensive legal and business support services to foreign companies, Chinese companies in Japan, entrepreneurs, and individual clients.",
+    "team": "Our team consists of lawyers, administrative scriveners, tax consultants, and business advisors who are familiar with the Japanese and international legal environments. We adhere to the principles of 'Integrity, Fairness, Professionalism, and Win-Win' to help clients avoid risks and protect their rights in their investments, establishment, and operations in Japan.",
+    "location": "Main Office: Tokyo, Japan (Fujimoto)"
+  },
+  "services": {
+    "title": "Service Range",
+    "categories": [
+      {
+        "title": "Corporate Legal Affairs & Company Setup",
+        "description": "Full support for company registration, articles of incorporation, capital increase, changes, and liquidation.",
+        "list": [
+          "Incorporation of Kabushiki Kaisha, Godo Kaisha, etc.",
+          "Company articles and internal regulations drafting",
+          "Board of directors and shareholders meeting document preparation",
+          "Company registration changes, capital adjustment, increase/decrease procedures",
+          "Corporate dissolution and liquidation process support"
+        ]
+      },
+      {
+        "title": "Visa & Immigration Services",
+        "description": "Investment/Business Management visa and residency status support.",
+        "list": [
+          "Investment/Business Management visa application & renewal",
+          "Technical/Humanities/International Services visa",
+          "Permanent residency/Family stay consultation"
+        ]
+      },
+      {
+        "title": "Labor Law & Employment Management",
+        "description": "Labor contracts, work regulations, and dispute resolution support.",
+        "list": [
+          "Labor contract and regulation drafting",
+          "Labor dispute negotiation and mediation",
+          "Foreign employee compliance consultation"
+        ]
+      },
+      {
+        "title": "Intellectual Property & Brand Protection",
+        "description": "Trademark, copyright, and infringement response.",
+        "list": [
+          "Trademark registration/renewal/opposition",
+          "Copyright and patent consultation",
+          "Infringement response and settlement negotiation"
+        ]
+      },
+      {
+        "title": "Tax & Accounting Advisory",
+        "description": "Tax filing and planning in collaboration with tax professionals.",
+        "list": [
+          "Annual settlement and tax filing",
+          "Tax planning and cross-border tax consultation",
+          "Bookkeeping and monthly advisory services"
+        ]
+      },
+      {
+        "title": "Compliance & Dispute Resolution",
+        "description": "Contract review, debt collection, litigation, and arbitration support.",
+        "list": [
+          "Contract drafting/review",
+          "Civil and commercial litigation and arbitration",
+          "Mediation and negotiation representation"
+        ]
+      },
+      {
+        "title": "Real Estate & Investment Legal Affairs",
+        "description": "Commercial leasing and investment-related legal services.",
+        "list": [
+          "Commercial lease agreements/property transactions",
+          "Construction contract review",
+          "Investment project legal due diligence"
+        ]
+      },
+      {
+        "title": "Technology & Internet Legal Affairs",
+        "description": "Internet and data compliance support.",
+        "list": [
+          "E-commerce website operation compliance",
+          "Data protection/privacy policy drafting",
+          "Cross-border online transaction legal risk consultation"
+        ]
+      }
+    ]
+  },
+  "fees": {
+    "title": "Service Fee Reference",
+    "description": "The following are reference prices. Actual quotes will be provided separately based on case complexity and requirements.",
+    "table": {
+      "headers": ["Service Item", "Description", "Fee Reference (Incl. Tax)"],
+      "rows": [
+        ["Company Setup Agency", "Including company registration, seal making, basic documents", "¥150,000 onwards"],
+        ["Investment/Business Management Visa", "Document preparation + application agency", "¥120,000 onwards"],
+        ["Labor Contract & Regulation Drafting", "Document drafting and legal review", "¥80,000 onwards"],
+        ["Commercial Contract Review", "Single contract review", "¥30,000 onwards"],
+        ["Trademark Registration", "One application for one class", "¥55,000 onwards"],
+        ["Tax Consultant (Monthly)", "Including bookkeeping, settlement filing support", "¥25,000/month onwards"],
+        ["Legal Consultant (Monthly)", "Daily consultation and document review", "¥50,000/month onwards"]
+      ]
+    },
+    "note": "Note: Fees are for reference. Actual fees will be clearly quoted after initial consultation. We provide services in Chinese, Japanese, and English."
+  },
+  "advantages": {
+    "title": "Our Advantages",
+    "list": [
+      "🌍 International Perspective + Local Japanese Experience: Combining the dual advantages of Indonesia headquarters and Japanese team",
+      "Multilingual Communication in Chinese, Japanese, and English: No language barriers, quick understanding of client needs",
+      "⚖️ Cross-disciplinary Integrated Services: Legal × Tax × Business × Visa",
+      "📑 Full Compliance Support: Ensuring all documents meet legal and immigration requirements"
+    ]
+  },
+  "news": {
+    "title": "News & Updates",
+    "items": [
+      "2025.10.12 — Summary of Japanese Labor Contract Law Amendments (Brief Explanation)",
+      "2025.09.20 — Analysis of Common Mistakes in Foreigners Setting Up Companies in Japan",
+      "2025.09.01 — Key Points for Tax Compliance in Cross-border Transactions"
+    ]
+  },
+  "contact": {
+    "title": "Contact Us",
+    "company": "RIVER HOPE Japan Fujimoto Legal Consulting Office",
+    "address": "Address: 103 SUNRISE BUIDING, 3-36-4 Takada, Toshima-ku, Tokyo, Japan",
+    "phone": "Phone: +813 6877 2968",
+    "email": "Email: rhjp2026@gmail.com",
+    "hours": "Business Hours: Monday to Friday 9:30〜18:30",
+    "languages": "Language Services: Japanese・English・Chinese",
+    "form": {
+      "title": "Online Booking",
+      "namePlaceholder": "Name",
+      "emailPlaceholder": "Email",
+      "companyPlaceholder": "Company (Optional)",
+      "messagePlaceholder": "Describe Your Needs",
+      "submitButton": "Submit Booking",
+      "thankYouMessage": "Thank you for your booking request. We will contact you as soon as possible."
+    }
+  },
+  "footer": {
+    "copyright": "Copyright © 2025 RH Japan Fujimoto",
+    "disclaimer": "Disclaimer: The content of this website is for general information purposes only and does not constitute specific legal advice. Please contact our lawyers for professional advice on your specific case."
+  },
+  "language": {
+    "zh": "Chinese",
+    "ja": "日本語",
+    "en": "English"
+  }
+}
