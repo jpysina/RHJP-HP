@@ -255,14 +255,10 @@ header.fixed-header {
 .logo {
   width: 48px;
   height: 48px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #0b5fff, #3fc5ff);
+  background: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  font-weight: 700;
-  font-size: 18px;
 }
 
 
